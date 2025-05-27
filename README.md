@@ -144,4 +144,3 @@ my-next-game/
 *   [RAWG API](https://rawg.io/apidocs) por proporcionar la extensa base de datos de videojuegos.
 *   [Google Gemini API](https://ai.google.dev/) por potenciar las funciones de inteligencia artificial.
 *   Creado por Asier Núñez.
-```
