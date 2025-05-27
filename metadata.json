@@ -1,0 +1,6 @@
+{
+  "name": "MyNextGame",
+  "description": "Discover your next favorite game with personalized recommendations and exploration tools. Powered by the RAWG API.",
+  "requestFramePermissions": [],
+  "prompt": ""
+}

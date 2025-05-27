@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyNextGame</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23c026d3%22 /><text x=%2250%%22 y=%2250%%22 dominant-baseline=%22central%22 text-anchor=%22middle%22 font-size=%2270%22 font-family=%22'Exo 2', sans-serif%22 fill=%22white%22 dy=%22.05em%22>M</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar for webkit browsers */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f172a; /* slate-900 */
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #c026d3; /* fuchsia-600 */
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #a21caf; /* fuchsia-700 */
+    }
+    /* Basic body styling for dark theme */
+    body {
+      background-color: #0b0f19; /* Darker base */
+      background-image: radial-gradient(ellipse at center bottom, #1e293b 0%, #0b0f19 70%); /* slate-800 to darker base */
+      color: #e2e8f0; /* slate-200 */
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3, h4, h5, h6, .font-heading {
+      font-family: 'Exo 2', sans-serif;
+    }
+    /* Custom thin scrollbar for modals etc */
+    .custom-scrollbar-thin::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar-thin::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+    .custom-scrollbar-thin::-webkit-scrollbar-thumb {
+      background: #c026d3; /* fuchsia-600 */
+      border-radius: 3px;
+    }
+    .custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background: #a21caf; /* fuchsia-700 */
+    }
+    .custom-scrollbar-thin {
+      scrollbar-width: thin; /* For Firefox */
+      scrollbar-color: #c026d3 #1e293b80; /* For Firefox: thumb track (slate-800 with opacity) */
+    }
+
+    /* Shimmer animation */
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
+      }
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+    .shimmer-bg {
+      animation: shimmer 2s infinite linear;
+      background: linear-gradient(to right, transparent 0%, #1e293b 20%, #334155 40%, #1e293b 60%, transparent 80%);
+      background-size: 1000px 100%; 
+    }
+
+    /* Update focus ring color to fuchsia globally for focus-visible */
+    *:focus-visible {
+        outline: 2px solid #a21caf !important; /* fuchsia-700 */
+        outline-offset: 2px;
+    }
+    /* Tailwind specific focus overrides if necessary */
+    .focus\:ring-fuchsia-600:focus {
+        --tw-ring-color: #c026d3 !important;
+    }
+     .focus\:ring-fuchsia-500:focus {
+        --tw-ring-color: #d946ef !important;
+    }
+    .focus\:ring-offset-slate-900:focus{
+        --tw-ring-offset-color: #0f172a !important;
+    }
+    .focus\:ring-offset-slate-800:focus{
+        --tw-ring-offset-color: #1e293b !important;
+    }
+
+    /* Glassmorphism base for Tailwind */
+    .glassmorphic {
+      background-color: rgba(30, 41, 59, 0.6); /* bg-slate-800 with opacity */
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px); /* For Safari */
+      border: 1px solid rgba(192, 38, 211, 0.2); /* border-fuchsia-600 with opacity */
+    }
+    .glassmorphic-menu {
+        background-color: rgba(51, 65, 85, 0.75); /* bg-slate-700 with more opacity for dropdowns */
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(217, 70, 239, 0.1); /* border-fuchsia-500 with opacity */
+    }
+    
+    /* Text Gradient */
+    .text-gradient-fuchsia {
+      background-image: linear-gradient(to right, #d946ef, #c026d3, #a21caf); /* fuchsia-500, fuchsia-600, fuchsia-700 */
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* Subtle fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.5s ease-out forwards;
+    }
+    @keyframes fadeInSlow {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fadeInSlow {
+      animation: fadeInSlow 0.8s ease-out forwards;
+    }
+
+
+    /* Animations for new LoadingSpinner */
+    @keyframes spin-slow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .animate-spin-slow {
+      animation: spin-slow 2s linear infinite;
+    }
+
+    @keyframes pulse-segment {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); } /* Adjusted base opacity and transform for individual segments */
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    /* This class would be applied to each segment by the component if more complex keyframes needed access to custom props */
+    /* However, the component's inline style for animationDelay and transform handles per-segment needs */
+    .animate-pulse-segment {
+       animation-name: pulse-segment;
+       animation-duration: 1.5s;
+       animation-timing-function: ease-in-out;
+       animation-iteration-count: infinite;
+    }
+
+    /* Enhanced button hover/focus glow */
+    .hover\:shadow-fuchsia-500\/30:hover {
+      box-shadow: 0 0 15px 2px rgba(217, 70, 239, 0.4), 0 4px 6px -1px rgba(217, 70, 239, 0.1), 0 2px 4px -1px rgba(217, 70, 239, 0.06) !important;
+    }
+     .hover\:shadow-rose-500\/30:hover {
+      box-shadow: 0 0 15px 2px rgba(244, 63, 94, 0.4), 0 4px 6px -1px rgba(244, 63, 94, 0.1), 0 2px 4px -1px rgba(244, 63, 94, 0.06) !important;
+    }
+    .focus-visible\:ring-fuchsia-500:focus-visible, .focus-visible\:ring-purple-400:focus-visible, .focus-visible\:ring-rose-400:focus-visible {
+        box-shadow: 0 0 0 2px #0f172a, 0 0 0 4px var(--tw-ring-color, #d946ef) !important; /* slate-900 offset, then accent ring */
+    }
+
+  </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai"
+  }
+}
+</script>
+</head>
+<body class="antialiased">
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html><link rel="stylesheet" href="index.css">
+<script src="index.tsx" type="module"></script>
